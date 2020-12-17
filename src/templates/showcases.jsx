@@ -11,13 +11,16 @@ import { ShowcaseBody, ShowcaseHeader } from "../components/showcase"
 import { peoples } from "../content/community"
 
 export const query = graphql`
-    query($slug: String!) {
+  query($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       html
       frontmatter {
         title
         label
         author
+        ctaLink
+        coverImage
+        coverCaption
       }
     }
   }
@@ -25,12 +28,14 @@ export const query = graphql`
 
 function ShowcasesTemplate({ data }) {
   const { frontmatter, html } = data.markdownRemark
-  const { title, label, author } = frontmatter
-  const {firstname, lastname, image} = peoples.filter(p => p.firstname === author)[0]
+  const { title, label, author, ctaLink } = frontmatter
+  const { firstname, lastname, image } = author
+    ? peoples.filter(p => p.firstname === author)[0]
+    : ""
 
   return (
     <Layout>
-      <SEO title={`Blogs | `} />
+      <SEO title="Blogs" />
       <div className="container-fluid h-100">
         <div className="row showcase-wrapper h-100">
           <article className="showcase">
@@ -43,9 +48,13 @@ function ShowcasesTemplate({ data }) {
                 </Link>
               }
             />
-            <ShowcaseBody content={html} />
+            <ShowcaseBody content={html} ctaLink={ctaLink} />
             <footer className="showcase-footer">
-              <Author name={`${firstname} ${lastname}`} img={image ? require(`../images/community/${image}`) : ''} minimal />
+              <Author
+                name={`${firstname} ${lastname}`}
+                img={image ? require(`../images/community/${image}`) : ""}
+                minimal
+              />
             </footer>
           </article>
         </div>
