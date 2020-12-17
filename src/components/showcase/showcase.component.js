@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 
 export function ShowcaseHeader(props) {
-  const {title, label, link, share} = props
+  const { title, label, link, share } = props
 
   return (
     <header className="showcase-header">
@@ -21,13 +21,27 @@ ShowcaseHeader.propTypes = {
 }
 
 export function ShowcaseBody(props) {
-  const {content} = props
+  const { content, ctaLink } = props
 
   return (
-      <div className="showcase-content" dangerouslySetInnerHTML={{__html:content}} />
+    <>
+      <div className="showcase-content" dangerouslySetInnerHTML={{ __html: content }} />
+      {ctaLink && (
+        <div className="d-flex mb-5">
+          <a className="btn btn-outline-dark m-auto" role="button" href={ctaLink}>
+            Read more
+          </a>
+        </div>
+      )}
+    </>
   )
 }
 
 ShowcaseBody.propTypes = {
-  content: PropTypes.arrayOf(PropTypes.string),
+  content: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ctaLink: PropTypes.string,
+}
+
+ShowcaseBody.defaultProps = {
+  ctaLink: undefined,
 }
