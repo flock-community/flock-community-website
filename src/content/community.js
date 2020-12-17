@@ -22,4 +22,9 @@ export const peoples = [
     lastname: "Peulen",
     image: undefined,
   },
+  {
+    firstname: "Willem",
+    lastname: "Velenturf",
+    image: undefined,
+  },
 ]
